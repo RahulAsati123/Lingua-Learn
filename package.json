@@ -43,8 +43,5 @@
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
-  },
-  "overrides": {
-    "next": "15.2.3"
   }
 }
