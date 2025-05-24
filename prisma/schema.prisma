@@ -1,0 +1,122 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  email     String   @unique
+  name      String?
+  hearts    Int      @default(5)
+  points    Int      @default(0)
+  streak    Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userProgress UserProgress[]
+  userLessons  UserLesson[]
+}
+
+model Course {
+  id          String @id @default(cuid())
+  title       String
+  description String
+  imageSrc    String
+  flag        String
+
+  units        Unit[]         @relation("CourseUnits")
+  userProgress UserProgress[]
+  lessons      Lesson[]
+}
+
+model Unit {
+  id          String @id @default(cuid())
+  title       String
+  description String
+  order       Int
+  courseId    String
+
+  course  Course   @relation("CourseUnits", fields: [courseId], references: [id], onDelete: Cascade)
+  lessons Lesson[]
+}
+
+model Lesson {
+  id    String @id @default(cuid())
+  title String
+  order Int
+
+  unitId   String
+  courseId String
+
+  unit         Unit           @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  course       Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  challenges   Challenge[]
+  userLessons  UserLesson[]
+}
+
+model Challenge {
+  id       String      @id @default(cuid())
+  question String
+  type     ChallengeType
+  order    Int
+
+  lessonId String
+
+  lesson            Lesson              @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  challengeOptions  ChallengeOption[]
+  challengeProgress ChallengeProgress[]
+}
+
+enum ChallengeType {
+  SELECT
+  ASSIST
+}
+
+model ChallengeOption {
+  id      String  @id @default(cuid())
+  text    String
+  correct Boolean
+  imageSrc String?
+  audioSrc String?
+
+  challengeId String
+
+  challenge Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+}
+
+model ChallengeProgress {
+  id          String @id @default(cuid())
+  userId      String
+  challengeId String
+  completed   Boolean @default(false)
+
+  challenge Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, challengeId])
+}
+
+model UserProgress {
+  userId   String
+  courseId String
+
+  user   User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@id([userId, courseId])
+}
+
+model UserLesson {
+  id       String @id @default(cuid())
+  userId   String
+  lessonId String
+
+  user   User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+}
