@@ -14,6 +14,7 @@ export default function HomePage() {
               width={80} 
               height={80}
               className="rounded-lg shadow-lg"
+              priority
             />
           </div>
           <h1 className="text-4xl font-bold text-gray-900 mb-4">

@@ -21,6 +21,7 @@ export const Sidebar = ({ className }: Props) => {
             width={40} 
             height={40}
             className="rounded-lg"
+            priority
           />
           <h1 className="text-2xl font-extrabold text-green-600 tracking-wide">
             LinguaLearn
