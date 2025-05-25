@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { SidebarItem } from "./sidebar-item";
-import Image from "next/image";
+import { Logo } from "@/components/logo";
 
 type Props = {
   className?: string;
@@ -15,14 +15,7 @@ export const Sidebar = ({ className }: Props) => {
     )}>
       <Link href="/learn">
         <div className="pt-8 pl-4 pb-7 flex items-center gap-x-3">
-          <Image 
-            src="/images/icon.png" 
-            alt="LinguaLearn Logo" 
-            width={40} 
-            height={40}
-            className="rounded-lg"
-            priority
-          />
+          <Logo width={40} height={40} />
           <h1 className="text-2xl font-extrabold text-green-600 tracking-wide">
             LinguaLearn
           </h1>
