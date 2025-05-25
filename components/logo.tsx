@@ -13,11 +13,11 @@ export const Logo = ({ width, height, className }: Props) => {
   const [imageError, setImageError] = useState(false);
 
   if (imageError) {
-    // Fallback to emoji or text if image fails to load
+    // Fallback to styled div if image fails to load
     return (
       <div 
         className={`flex items-center justify-center bg-green-600 rounded-lg text-white font-bold ${className}`}
-        style={{ width: `${width}px`, height: `${height}px` }}
+        style={{ width: `${width}px`, height: `${height}px`, fontSize: `${width * 0.4}px` }}
       >
         🦉
       </div>
@@ -26,7 +26,7 @@ export const Logo = ({ width, height, className }: Props) => {
 
   return (
     <Image 
-      src="/images/icon.png" 
+      src="/images/icon.svg" 
       alt="LinguaLearn Logo" 
       width={width} 
       height={height}
